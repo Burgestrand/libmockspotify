@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/mockspotify/version', __FILE__)
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+require 'mockspotify/version'
 
 Gem::Specification.new do |gem|
   gem.name     = "mockspotify"
