@@ -8,6 +8,10 @@ mocksp_search_create(sp_error error, const char *query, const char *did_you_mean
                      int total_playlists, int num_playlists, const sp_playlist **playlists,
                      search_complete_cb *callback, void *userdata)
 {
+  int i = 0, length = 0;
+  sp_link *uri = NULL;
+  sp_session *session = NULL;
+  sp_image *image = NULL;
   sp_search *search = ALLOC(sp_search);
 
   search->error = error;
@@ -26,17 +30,50 @@ mocksp_search_create(sp_error error, const char *query, const char *did_you_mean
   search->num_tracks  = num_tracks;
   search->num_artists = num_artists;
   search->num_albums  = num_albums;
-  search->num_playlists = num_playlists;
+  search->num_playlists =
+    search->num_playlist_names =
+    search->num_playlist_uris  =
+    search->num_playlist_image_uris = num_playlists;
 
   search->tracks  = ALLOC_N(sp_track *, num_tracks);
   search->artists = ALLOC_N(sp_artist *, num_artists);
   search->albums  = ALLOC_N(sp_album *, num_artists);
-  search->playlists = ALLOC_N(sp_playlist *, num_playlists);
 
   MEMCPY_N(search->tracks, tracks, sp_track *, num_tracks);
   MEMCPY_N(search->artists, artists, sp_artist *, num_artists);
   MEMCPY_N(search->albums, albums, sp_album *, num_albums);
-  MEMCPY_N(search->playlists, playlists, sp_playlist *, num_playlists);
+
+  search->playlist_names = ALLOC_N(char *, num_playlists);
+  search->playlist_uris  = ALLOC_N(char *, num_playlists);
+  search->playlist_image_uris = ALLOC_N(char *, num_playlists);
+  for (i = 0; i < num_playlists; ++i)
+  {
+    const sp_playlist *playlist = playlists[i];
+
+    search->playlist_names[i] = strclone(playlist->name);
+
+    uri = sp_link_create_from_playlist((sp_playlist *) playlist);
+
+    if (uri)
+    {
+      length = sp_link_as_string(uri, NULL, 0);
+      search->playlist_uris[i] = ALLOC_STR(length);
+      sp_link_as_string(uri, search->playlist_uris[i], length + 1);
+    }
+
+    if (playlist->image)
+    {
+      image = sp_image_create(session, playlist->image);
+
+      if (image)
+      {
+        uri    = sp_link_create_from_image(image);
+        length = sp_link_as_string(uri, NULL, 0);
+        search->playlist_image_uris[i] = ALLOC_STR(length);
+        sp_link_as_string(uri, search->playlist_image_uris[i], length + 1);
+      }
+    }
+  }
 
   search->callback = callback;
   search->userdata = userdata;
@@ -61,6 +98,12 @@ DEFINE_READER(search, total_albums, int);
 DEFINE_READER(search, num_tracks, int);
 DEFINE_ARRAY_READER(search, track, sp_track *);
 DEFINE_READER(search, total_tracks, int);
+
+DEFINE_READER(search, num_playlists, int);
+DEFINE_ARRAY_READER(search, playlist_name, const char *);
+DEFINE_ARRAY_READER(search, playlist_uri, const char *);
+DEFINE_ARRAY_READER(search, playlist_image_uri, const char *);
+DEFINE_READER(search, total_playlists, int);
 
 sp_search *
 sp_search_create(sp_session *UNUSED(session), const char *query,

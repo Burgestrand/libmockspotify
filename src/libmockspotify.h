@@ -193,7 +193,15 @@ struct sp_search
 
   int total_playlists;
   int num_playlists;
-  sp_playlist **playlists;
+
+  char **playlist_names;
+  int num_playlist_names; // internal
+
+  char **playlist_uris;
+  int num_playlist_uris; // internal
+
+  char **playlist_image_uris;
+  int num_playlist_image_uris; // internal
 
   char *query;
   char *did_you_mean;
