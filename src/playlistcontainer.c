@@ -304,7 +304,7 @@ mocksp_playlistcontainer_find_playlist(sp_playlistcontainer *pc, sp_playlist *_p
     tmp = sp_playlistcontainer_playlist(pc, i);
     if (tmp != NULL && _playlist == tmp)
     {
-      *playlist = pc->playlists[i];
+      playlist = &pc->playlists[i];
     }
   }
 
