@@ -18,5 +18,5 @@ mocksp_artist_create(const char *name, const byte* portrait, bool is_loaded)
 
 DEFINE_REFCOUNTERS_FOR(artist);
 DEFINE_READER(artist, name, const char *);
-DEFINE_READER(artist, portrait, const byte *);
+DEFINE_IMAGE_READER(artist, portrait, const byte *);
 DEFINE_READER(artist, is_loaded, bool);

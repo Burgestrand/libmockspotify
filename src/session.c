@@ -103,17 +103,20 @@ sp_session_create(const sp_session_config *config, sp_session * *sess)
   return SP_ERROR_OK;
 }
 
-void sp_session_release(sp_session *UNUSED(session))
+sp_error
+sp_session_release(sp_session *UNUSED(session))
 {
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_process_events(sp_session *UNUSED(session), int *next_timeout)
 {
   *next_timeout = 1;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_login(sp_session *session, const char *username, const char *UNUSED(password), bool remember_me, const char *UNUSED(blob))
 {
   session->user = mocksp_user_create(username, username, true);
@@ -123,6 +126,8 @@ sp_session_login(sp_session *session, const char *username, const char *UNUSED(p
   {
     session->username = strclone(username);
   }
+
+  return SP_ERROR_OK;
 }
 
 sp_error
@@ -155,22 +160,25 @@ sp_session_remembered_user(sp_session *session, char *buffer, size_t buffer_size
   return (int) strlen(session->username);
 }
 
-void
+sp_error
 sp_session_forget_me(sp_session *session)
 {
   session->username = NULL;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_logout(sp_session *session)
 {
   session->connectionstate = SP_CONNECTION_STATE_LOGGED_OUT;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_flush_caches(sp_session *session)
 {
   // no op
+  return SP_ERROR_OK;
 }
 
 sp_user *
@@ -185,33 +193,38 @@ sp_session_user_country(sp_session *UNUSED(session))
   return ('S' << 8 | 'E');
 }
 
-void
+sp_error
 sp_session_set_cache_size(sp_session *session, size_t size)
 {
   session->cache_size = size;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_preferred_bitrate(sp_session *session, sp_bitrate bitrate)
 {
   session->preferred_bitrate = bitrate;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_set_connection_type(sp_session *session, sp_connection_type connection_type)
 {
   session->connection_type = connection_type;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_set_connection_rules(sp_session *session, sp_connection_rules connection_rules)
 {
   session->connection_rules = connection_rules;
+  return SP_ERROR_OK;
 }
 
-void
+sp_error
 sp_session_preferred_offline_bitrate(sp_session *UNUSED(session), sp_bitrate UNUSED(bitrate), bool UNUSED(allow_resync))
 {
+  return SP_ERROR_OK;
 }
 
 bool
@@ -273,8 +286,9 @@ sp_session_get_volume_normalization(sp_session *session)
   return session->volume_normalization;
 }
 
-void
+sp_error
 sp_session_set_volume_normalization(sp_session *session, bool yepnope)
 {
   session->volume_normalization = yepnope;
+  return SP_ERROR_OK;
 }

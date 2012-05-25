@@ -27,8 +27,14 @@ char *unregion(int);
 #define STARTS_WITH(x, y) (strncmp((x), (y), strlen(y)) == 0)
 
 #define DEFINE_REFCOUNTERS_FOR(type)       \
-  void sp_##type##_add_ref(sp_##type *UNUSED(x)) {} \
-  void sp_##type##_release(sp_##type *UNUSED(x)) {}
+  sp_error sp_##type##_add_ref(sp_##type *UNUSED(x)) { return SP_ERROR_OK; } \
+  sp_error sp_##type##_release(sp_##type *UNUSED(x)) { return SP_ERROR_OK; }
+
+#define DEFINE_IMAGE_READER(kind, field, return_type) \
+  return_type sp_##kind##_##field(sp_##kind *x, sp_image_size UNUSED(size)) \
+  {                                                   \
+    return x->field;                                  \
+  }
 
 #define DEFINE_READER(kind, field, return_type) \
   return_type sp_##kind##_##field(sp_##kind *x) \
