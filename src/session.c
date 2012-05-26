@@ -36,6 +36,7 @@ mocksp_session_create(const sp_session_config *config, sp_connectionstate connec
 
 DEFINE_READER(session, connectionstate, sp_connectionstate);
 DEFINE_READER(session, userdata, void *);
+DEFINE_READER(session, user_name, const char *);
 
 const char * sp_build_id(void)
 {
@@ -124,8 +125,10 @@ sp_session_login(sp_session *session, const char *username, const char *UNUSED(p
 
   if (remember_me)
   {
-    session->username = strclone(username);
+    session->remembered_user = strclone(username);
   }
+
+  session->user_name = strclone(username);
 
   return SP_ERROR_OK;
 }
@@ -133,37 +136,37 @@ sp_session_login(sp_session *session, const char *username, const char *UNUSED(p
 sp_error
 sp_session_relogin(sp_session *session)
 {
-  if ( ! session->username)
+  if ( ! session->remembered_user)
   {
     return SP_ERROR_NO_CREDENTIALS;
   }
 
-  sp_session_login(session, session->username, NULL, true, NULL);
+  sp_session_login(session, session->remembered_user, NULL, true, NULL);
   return SP_ERROR_OK;
 }
 
 int
 sp_session_remembered_user(sp_session *session, char *buffer, size_t buffer_size)
 {
-  if ( ! session->username)
+  if ( ! session->remembered_user)
   {
     return -1;
   }
 
-  strncpy(buffer, session->username, buffer_size);
+  strncpy(buffer, session->remembered_user, buffer_size);
 
   if (buffer_size > 0)
   {
     buffer[buffer_size - 1] = '\0';
   }
 
-  return (int) strlen(session->username);
+  return (int) strlen(session->remembered_user);
 }
 
 sp_error
 sp_session_forget_me(sp_session *session)
 {
-  session->username = NULL;
+  session->remembered_user = NULL;
   return SP_ERROR_OK;
 }
 

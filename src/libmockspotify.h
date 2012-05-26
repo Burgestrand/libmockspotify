@@ -23,7 +23,8 @@ typedef struct sp_player sp_player;
 
 struct sp_session
 {
-  char *username;
+  char *user_name;
+  char *remembered_user;
   sp_session_config config;
   void *userdata;
   sp_connectionstate connectionstate;
