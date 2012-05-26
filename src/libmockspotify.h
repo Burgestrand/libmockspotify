@@ -45,6 +45,7 @@ struct sp_session
   sp_playlist *inbox;
 
   bool volume_normalization;
+  bool is_private;
 };
 
 struct sp_album

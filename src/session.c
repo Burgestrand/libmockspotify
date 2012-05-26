@@ -36,6 +36,8 @@ mocksp_session_create(const sp_session_config *config, sp_connectionstate connec
 
 DEFINE_READER(session, connectionstate, sp_connectionstate);
 DEFINE_READER(session, userdata, void *);
+DEFINE_READER(session, is_private, bool);
+DEFINE_READER(session, user, sp_user *);
 
 const char * sp_build_id(void)
 {
@@ -194,12 +196,6 @@ sp_session_flush_caches(sp_session *session)
   return SP_ERROR_OK;
 }
 
-sp_user *
-sp_session_user(sp_session *session)
-{
-  return session->user;
-}
-
 int
 sp_session_user_country(sp_session *UNUSED(session))
 {
@@ -304,4 +300,17 @@ sp_session_set_volume_normalization(sp_session *session, bool yepnope)
 {
   session->volume_normalization = yepnope;
   return SP_ERROR_OK;
+}
+
+sp_error
+sp_session_set_private_session(sp_session *session, bool is_private)
+{
+  session->is_private = is_private;
+  return SP_ERROR_OK;
+}
+
+bool
+sp_session_is_private_session(sp_session *session)
+{
+  return session->is_private;
 }
