@@ -36,7 +36,6 @@ mocksp_session_create(const sp_session_config *config, sp_connectionstate connec
 
 DEFINE_READER(session, connectionstate, sp_connectionstate);
 DEFINE_READER(session, userdata, void *);
-DEFINE_READER(session, user_name, const char *);
 
 const char * sp_build_id(void)
 {
@@ -161,6 +160,17 @@ sp_session_remembered_user(sp_session *session, char *buffer, size_t buffer_size
   }
 
   return (int) strlen(session->remembered_user);
+}
+
+const char *
+sp_session_user_name(sp_session *session)
+{
+  if ( ! session->user_name)
+  {
+    return "";
+  }
+
+  return session->user_name;
 }
 
 sp_error
