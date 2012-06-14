@@ -21,6 +21,13 @@ struct sp_player
 };
 typedef struct sp_player sp_player;
 
+struct sp_scrobbling
+{
+  sp_scrobbling_state state;
+  bool is_possible;
+};
+typedef struct sp_scrobbling sp_scrobbling;
+
 struct sp_session
 {
   char *user_name;
@@ -46,6 +53,8 @@ struct sp_session
 
   bool volume_normalization;
   bool is_private;
+
+  sp_scrobbling scrobbling[3]; // spotify, facebook, lastfm
 };
 
 struct sp_album
@@ -334,5 +343,8 @@ mocksp_search_create(sp_error, const char *, const char *, int, int, const sp_tr
 /* custom accessors for testing libmockspotify state */
 bool
 mocksp_playlist_get_autolink_tracks(sp_playlist *);
+
+void
+mocksp_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible);
 
 #endif /* LIBMOCKSPOTIFY_API_H */

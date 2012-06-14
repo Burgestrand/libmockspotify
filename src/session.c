@@ -34,6 +34,48 @@ mocksp_session_create(const sp_session_config *config, sp_connectionstate connec
   return session;
 }
 
+void
+mocksp_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible)
+{
+  session->scrobbling[provider].is_possible = possible;
+}
+
+sp_error
+sp_session_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool *out)
+{
+  *out = session->scrobbling[provider].is_possible;
+
+  switch(provider)
+  {
+    case SP_SOCIAL_PROVIDER_FACEBOOK:
+      return SP_ERROR_OK;
+
+    // libspotify v12.1.56 has a bug where all providers but facebook return error
+    default:
+      return SP_ERROR_INVALID_INDATA;
+  }
+}
+
+sp_error
+sp_session_set_scrobbling(sp_session *session, sp_social_provider provider, sp_scrobbling_state state)
+{
+  session->scrobbling[provider].state = state;
+  return SP_ERROR_OK;
+}
+
+sp_error
+sp_session_is_scrobbling(sp_session *session, sp_social_provider provider, sp_scrobbling_state *out)
+{
+  *out = session->scrobbling[provider].state;
+  return SP_ERROR_OK;
+}
+
+sp_error
+sp_session_set_social_credentials(sp_session *UNUSED(session), sp_social_provider UNUSED(provider), const char *UNUSED(username), const char *UNUSED(password))
+{
+  return SP_ERROR_OK;
+}
+
 DEFINE_READER(session, connectionstate, sp_connectionstate);
 DEFINE_READER(session, userdata, void *);
 DEFINE_READER(session, is_private, bool);
