@@ -59,6 +59,11 @@ sp_session_is_scrobbling_possible(sp_session *session, sp_social_provider provid
 sp_error
 sp_session_set_scrobbling(sp_session *session, sp_social_provider provider, sp_scrobbling_state state)
 {
+  if (state == SP_SCROBBLING_STATE_USE_GLOBAL_SETTING)
+  {
+    state = SP_SCROBBLING_STATE_GLOBAL_ENABLED;
+  }
+
   session->scrobbling[provider].state = state;
   return SP_ERROR_OK;
 }
