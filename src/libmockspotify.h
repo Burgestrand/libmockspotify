@@ -290,61 +290,61 @@ struct sp_inbox
 };
 
 void *
-registry_find(const char *url);
+sp_mock_registry_find(const char *url);
 
 void
-registry_add(const char *url, void *ptr);
+sp_mock_registry_add(const char *url, void *ptr);
 
 const char *
-registry_reverse_find(void *);
+sp_mock_registry_reverse_find(void *);
 
 void
-registry_clean(void);
+sp_mock_registry_clean(void);
 
 sp_session *
-mocksp_session_create(const sp_session_config *, sp_connectionstate, int, sp_offline_sync_status *, int, int, sp_playlist *);
+sp_mock_session_create(const sp_session_config *, sp_connectionstate, int, sp_offline_sync_status *, int, int, sp_playlist *);
 
 sp_album *
-mocksp_album_create(const char *, sp_artist *, int, const byte *, sp_albumtype, bool, bool);
+sp_mock_album_create(const char *, sp_artist *, int, const byte *, sp_albumtype, bool, bool);
 
 sp_albumbrowse *
-mocksp_albumbrowse_create(sp_error, int, sp_album *, sp_artist *, int, const char **, int, sp_track **, const char *, albumbrowse_complete_cb *cb, void *userdata);
+sp_mock_albumbrowse_create(sp_error, int, sp_album *, sp_artist *, int, const char **, int, sp_track **, const char *, albumbrowse_complete_cb *cb, void *userdata);
 
 sp_artist *
-mocksp_artist_create(const char *, const byte *, bool);
+sp_mock_artist_create(const char *, const byte *, bool);
 
 sp_artistbrowse *
-mocksp_artistbrowse_create(sp_error, int, sp_artist *, int, const byte **, int, sp_track **, int, sp_album **, int, sp_artist **, int, sp_track **, const char *, sp_artistbrowse_type, artistbrowse_complete_cb *, void *);
+sp_mock_artistbrowse_create(sp_error, int, sp_artist *, int, const byte **, int, sp_track **, int, sp_album **, int, sp_artist **, int, sp_track **, const char *, sp_artistbrowse_type, artistbrowse_complete_cb *, void *);
 
 sp_playlist *
-mocksp_playlist_create(const char *, bool, sp_user *, bool, const char *, const byte *, bool, unsigned int, sp_subscribers *, bool, sp_playlist_offline_status, int, int, sp_playlist_track_t *);
+sp_mock_playlist_create(const char *, bool, sp_user *, bool, const char *, const byte *, bool, unsigned int, sp_subscribers *, bool, sp_playlist_offline_status, int, int, sp_playlist_track_t *);
 
 sp_subscribers *
-mocksp_subscribers(int, char **);
+sp_mock_subscribers(int, char **);
 
 sp_playlistcontainer *
-mocksp_playlistcontainer_create(sp_user *, bool, int, sp_playlistcontainer_playlist_t *, sp_playlistcontainer_callbacks *, void *);
+sp_mock_playlistcontainer_create(sp_user *, bool, int, sp_playlistcontainer_playlist_t *, sp_playlistcontainer_callbacks *, void *);
 
 sp_track *
-mocksp_track_create(const char *, int, sp_artist **, sp_album *, int, int, int, int, sp_error, bool, sp_track_availability, sp_track_offline_status, bool, bool, sp_track *, bool, bool);
+sp_mock_track_create(const char *, int, sp_artist **, sp_album *, int, int, int, int, sp_error, bool, sp_track_availability, sp_track_offline_status, bool, bool, sp_track *, bool, bool);
 
 sp_user *
-mocksp_user_create(const char *, const char *, bool);
+sp_mock_user_create(const char *, const char *, bool);
 
 sp_image*
-mocksp_image_create(const byte[20], sp_imageformat, size_t, const byte *, sp_error);
+sp_mock_image_create(const byte[20], sp_imageformat, size_t, const byte *, sp_error);
 
 sp_toplistbrowse *
-mocksp_toplistbrowse_create(sp_error, int, int, sp_artist **, int, sp_album **, int, sp_track **, toplistbrowse_complete_cb *, void *);
+sp_mock_toplistbrowse_create(sp_error, int, int, sp_artist **, int, sp_album **, int, sp_track **, toplistbrowse_complete_cb *, void *);
 
 sp_search *
-mocksp_search_create(sp_error, const char *, const char *, int, int, const sp_track **, int, int, const sp_album **, int, int, const sp_artist **, int, int, const sp_playlist **, search_complete_cb *, void *);
+sp_mock_search_create(sp_error, const char *, const char *, int, int, const sp_track **, int, int, const sp_album **, int, int, const sp_artist **, int, int, const sp_playlist **, search_complete_cb *, void *);
 
 /* custom accessors for testing libmockspotify state */
 bool
-mocksp_playlist_get_autolink_tracks(sp_playlist *);
+sp_mock_playlist_get_autolink_tracks(sp_playlist *);
 
 void
-mocksp_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible);
+sp_mock_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible);
 
 #endif /* LIBMOCKSPOTIFY_API_H */

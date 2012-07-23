@@ -2,7 +2,7 @@
 #include "time.h"
 
 sp_playlist *
-mocksp_playlist_create(const char *name, bool is_loaded, sp_user *owner, bool is_collaborative,
+sp_mock_playlist_create(const char *name, bool is_loaded, sp_user *owner, bool is_collaborative,
                        const char *description, const byte *image, bool has_pending_changes,
                        unsigned int num_subscribers, sp_subscribers *subscribers, bool is_in_ram,
                        sp_playlist_offline_status offline_status, int offline_download_completed,
@@ -43,7 +43,7 @@ mocksp_playlist_create(const char *name, bool is_loaded, sp_user *owner, bool is
 }
 
 sp_subscribers *
-mocksp_subscribers(int count, char **names)
+sp_mock_subscribers(int count, char **names)
 {
   int i = 0;
 
@@ -106,7 +106,7 @@ sp_playlist_create(sp_session *UNUSED(session), sp_link *link)
     return NULL;
   }
 
-  return registry_find(link->data);
+  return sp_mock_registry_find(link->data);
 }
 
 sp_track *

@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_search *
-mocksp_search_create(sp_error error, const char *query, const char *did_you_mean,
+sp_mock_search_create(sp_error error, const char *query, const char *did_you_mean,
                      int total_tracks, int num_tracks, const sp_track **tracks,
                      int total_albums, int num_albums, const sp_album **albums,
                      int total_artists, int num_artists, const sp_artist **artists,
@@ -122,7 +122,7 @@ sp_search_create(sp_session *UNUSED(session), const char *query,
   search->type  = type;
   link = sp_link_create_from_search(search);
 
-  return (sp_search *)registry_find(link->data);
+  return (sp_search *)sp_mock_registry_find(link->data);
 }
 
 bool

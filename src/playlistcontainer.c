@@ -1,16 +1,16 @@
 #include "libmockspotify.h"
 
 static sp_error
-mocksp_playlistcontainer_insert(sp_playlistcontainer *, int, sp_playlistcontainer_playlist_t);
+sp_mock_playlistcontainer_insert(sp_playlistcontainer *, int, sp_playlistcontainer_playlist_t);
 
 static sp_error
-mocksp_playlistcontainer_remove(sp_playlistcontainer *pc, int index);
+sp_mock_playlistcontainer_remove(sp_playlistcontainer *pc, int index);
 
 static sp_playlistcontainer_playlist_t *
-mocksp_playlistcontainer_find_playlist(sp_playlistcontainer *, sp_playlist *);
+sp_mock_playlistcontainer_find_playlist(sp_playlistcontainer *, sp_playlist *);
 
 sp_playlistcontainer *
-mocksp_playlistcontainer_create(sp_user *owner, bool loaded,
+sp_mock_playlistcontainer_create(sp_user *owner, bool loaded,
                                 int num_playlists, sp_playlistcontainer_playlist_t *playlists,
                                 sp_playlistcontainer_callbacks *callbacks, void *userdata)
 {
@@ -94,13 +94,13 @@ sp_playlistcontainer_remove_callbacks(sp_playlistcontainer *pc, sp_playlistconta
 sp_playlist *
 sp_playlistcontainer_add_new_playlist(sp_playlistcontainer *pc, const char *name)
 {
-  sp_playlist *playlist = mocksp_playlist_create(name, true, NULL, false, NULL, NULL, false, 0, NULL, true, SP_PLAYLIST_OFFLINE_STATUS_NO, 0, 0, NULL);
+  sp_playlist *playlist = sp_mock_playlist_create(name, true, NULL, false, NULL, NULL, false, 0, NULL, true, SP_PLAYLIST_OFFLINE_STATUS_NO, 0, 0, NULL);
 
   sp_playlistcontainer_playlist_t container_playlist;
   container_playlist.playlist = playlist;
   container_playlist.type     = SP_PLAYLIST_TYPE_PLAYLIST;
 
-  mocksp_playlistcontainer_insert(pc, sp_playlistcontainer_num_playlists(pc), container_playlist);
+  sp_mock_playlistcontainer_insert(pc, sp_playlistcontainer_num_playlists(pc), container_playlist);
 
   return playlist;
 }
@@ -114,7 +114,7 @@ sp_playlistcontainer_add_playlist(sp_playlistcontainer *pc, sp_link *link)
   {
     case SP_LINKTYPE_PLAYLIST:
     case SP_LINKTYPE_STARRED:
-      playlist = (sp_playlist *)registry_find(link->data);
+      playlist = (sp_playlist *)sp_mock_registry_find(link->data);
       break;
 
     default: return NULL;
@@ -127,7 +127,7 @@ sp_playlistcontainer_add_playlist(sp_playlistcontainer *pc, sp_link *link)
     container_playlist.playlist = playlist;
     container_playlist.type     = SP_PLAYLIST_TYPE_PLAYLIST;
 
-    mocksp_playlistcontainer_insert(pc, sp_playlistcontainer_num_playlists(pc), container_playlist);
+    sp_mock_playlistcontainer_insert(pc, sp_playlistcontainer_num_playlists(pc), container_playlist);
   }
 
   return playlist;
@@ -149,11 +149,11 @@ sp_playlistcontainer_add_folder(sp_playlistcontainer *pc, int index, const char 
   end_folder.folder_name = NULL;
   end_folder.type        = SP_PLAYLIST_TYPE_END_FOLDER;
 
-  error = mocksp_playlistcontainer_insert(pc, index, start_folder);
+  error = sp_mock_playlistcontainer_insert(pc, index, start_folder);
 
   if (error == SP_ERROR_OK)
   {
-    error = mocksp_playlistcontainer_insert(pc, index + 1, end_folder);
+    error = sp_mock_playlistcontainer_insert(pc, index + 1, end_folder);
   }
 
   return error;
@@ -211,7 +211,7 @@ sp_playlistcontainer_move_playlist(sp_playlistcontainer *pc, int from, int to, b
     sp_playlistcontainer_playlist_t playlist;
     MEMCPY(&playlist, &pc->playlists[from], sp_playlistcontainer_playlist_t);
 
-    error |= mocksp_playlistcontainer_insert(pc, to, playlist);
+    error |= sp_mock_playlistcontainer_insert(pc, to, playlist);
 
     if (from > to)
     {
@@ -227,7 +227,7 @@ sp_playlistcontainer_move_playlist(sp_playlistcontainer *pc, int from, int to, b
 int
 sp_playlistcontainer_get_unseen_tracks(sp_playlistcontainer *pc, sp_playlist *_playlist, sp_track **tracks, int num_tracks)
 {
-  sp_playlistcontainer_playlist_t *playlist = mocksp_playlistcontainer_find_playlist(pc, _playlist);
+  sp_playlistcontainer_playlist_t *playlist = sp_mock_playlistcontainer_find_playlist(pc, _playlist);
   bool seen = false;
   int unseen_count = 0, i = 0, j = 0;
 
@@ -271,7 +271,7 @@ sp_playlistcontainer_get_unseen_tracks(sp_playlistcontainer *pc, sp_playlist *_p
 int
 sp_playlistcontainer_clear_unseen_tracks(sp_playlistcontainer *pc, sp_playlist *_playlist)
 {
-  sp_playlistcontainer_playlist_t *playlist = mocksp_playlistcontainer_find_playlist(pc, _playlist);
+  sp_playlistcontainer_playlist_t *playlist = sp_mock_playlistcontainer_find_playlist(pc, _playlist);
   int i = 0;
 
   if ( ! playlist)
@@ -295,7 +295,7 @@ sp_playlistcontainer_clear_unseen_tracks(sp_playlistcontainer *pc, sp_playlist *
 
 /* UTILITY */
 static sp_playlistcontainer_playlist_t *
-mocksp_playlistcontainer_find_playlist(sp_playlistcontainer *pc, sp_playlist *_playlist)
+sp_mock_playlistcontainer_find_playlist(sp_playlistcontainer *pc, sp_playlist *_playlist)
 {
   sp_playlistcontainer_playlist_t *playlist = NULL;
   sp_playlist *tmp = NULL;
@@ -314,7 +314,7 @@ mocksp_playlistcontainer_find_playlist(sp_playlistcontainer *pc, sp_playlist *_p
 }
 
 static sp_error
-mocksp_playlistcontainer_insert(sp_playlistcontainer *pc, int index, sp_playlistcontainer_playlist_t playlist)
+sp_mock_playlistcontainer_insert(sp_playlistcontainer *pc, int index, sp_playlistcontainer_playlist_t playlist)
 {
   sp_playlistcontainer_playlist_t *new_playlists;
   int num_playlists = sp_playlistcontainer_num_playlists(pc);

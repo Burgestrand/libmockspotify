@@ -2,7 +2,7 @@
 #include "libmockspotify.h"
 
 sp_image*
-mocksp_image_create(const byte image_id[20], sp_imageformat format, size_t data_size, const byte *data, sp_error error)
+sp_mock_image_create(const byte image_id[20], sp_imageformat format, size_t data_size, const byte *data, sp_error error)
 {
   sp_image *image = ALLOC(sp_image);
   MEMCPY_N(image->image_id, image_id, byte, 20);
@@ -41,7 +41,7 @@ sp_image_is_loaded(sp_image *i)
 sp_image*
 sp_image_create_from_link(sp_session *UNUSED(session), sp_link *link)
 {
-  return (sp_image *)registry_find(link->data);
+  return (sp_image *)sp_mock_registry_find(link->data);
 }
 
 
@@ -54,7 +54,7 @@ sp_image_create(sp_session *UNUSED(session), const byte image_id[20])
   MEMCPY_N(tmp_image->image_id, image_id, byte, 20);
   tmp_link = sp_link_create_from_image(tmp_image);
 
-  return (sp_image *)registry_find(tmp_link->data);
+  return (sp_image *)sp_mock_registry_find(tmp_link->data);
 }
 
 sp_error

@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_toplistbrowse *
-mocksp_toplistbrowse_create(sp_error error, int request_duration,
+sp_mock_toplistbrowse_create(sp_error error, int request_duration,
                             int num_artists, sp_artist **artists,
                             int num_albums, sp_album **albums,
                             int num_tracks, sp_track **tracks,
@@ -69,5 +69,5 @@ sp_toplistbrowse_create(sp_session *UNUSED(session), sp_toplisttype type, sp_top
     sprintf(toplistbrowse_link, "spotify:toplist:%s:%s", real_type, real_region);
   }
 
-  return (sp_toplistbrowse *)registry_find(toplistbrowse_link);
+  return (sp_toplistbrowse *)sp_mock_registry_find(toplistbrowse_link);
 }

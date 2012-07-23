@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_album *
-mocksp_album_create(const char *name, sp_artist *artist, int year, const byte *cover,
+sp_mock_album_create(const char *name, sp_artist *artist, int year, const byte *cover,
                     sp_albumtype type, bool loaded, bool available)
 {
   sp_album *album = ALLOC(sp_album);

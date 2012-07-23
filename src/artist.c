@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_artist *
-mocksp_artist_create(const char *name, const byte* portrait, bool is_loaded)
+sp_mock_artist_create(const char *name, const byte* portrait, bool is_loaded)
 {
   sp_artist *artist = ALLOC(sp_artist);
   artist->name      = strclone(name);

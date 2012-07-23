@@ -12,7 +12,7 @@ node_t *g_node = NULL;
 node_t **g_tail = &g_node;
 
 void *
-registry_find(const char *url)
+sp_mock_registry_find(const char *url)
 {
   node_t *curr;
 
@@ -25,7 +25,7 @@ registry_find(const char *url)
 }
 
 const char *
-registry_reverse_find(void *sp_pointer)
+sp_mock_registry_reverse_find(void *sp_pointer)
 {
   node_t *curr;
 
@@ -38,7 +38,7 @@ registry_reverse_find(void *sp_pointer)
 }
 
 void
-registry_add(const char *url, void *ptr)
+sp_mock_registry_add(const char *url, void *ptr)
 {
   *g_tail = ALLOC(node_t);
   (*g_tail)->url = strclone(url);
@@ -47,7 +47,7 @@ registry_add(const char *url, void *ptr)
 }
 
 void
-registry_clean(void)
+sp_mock_registry_clean(void)
 {
   node_t *curr;
   node_t *next;

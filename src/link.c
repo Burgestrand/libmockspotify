@@ -63,7 +63,7 @@ sp_link_create_from_image(sp_image *image)
 sp_link *
 sp_link_create_from_track(sp_track *track, int offset)
 {
-  const char *link = registry_reverse_find((void *) track);
+  const char *link = sp_mock_registry_reverse_find((void *) track);
   int mins = 0, secs = 0;
   char *link_with_offset = NULL;
 
@@ -88,7 +88,7 @@ sp_link_create_from_track(sp_track *track, int offset)
 sp_link *
 sp_link_create_from_album(sp_album *album)
 {
-  const char *link = registry_reverse_find((void *) album);
+  const char *link = sp_mock_registry_reverse_find((void *) album);
   return sp_link_create_from_string(link);
 }
 
@@ -109,14 +109,14 @@ sp_link_create_from_album_cover(sp_album *album, sp_image_size size)
 sp_link *
 sp_link_create_from_playlist(sp_playlist *playlist)
 {
-  const char *link = registry_reverse_find((void *) playlist);
+  const char *link = sp_mock_registry_reverse_find((void *) playlist);
   return sp_link_create_from_string(link);
 }
 
 sp_link *
 sp_link_create_from_artist(sp_artist *artist)
 {
-  const char *link = registry_reverse_find((void *) artist);
+  const char *link = sp_mock_registry_reverse_find((void *) artist);
   return sp_link_create_from_string(link);
 }
 
@@ -178,7 +178,7 @@ sp_link_as_string(sp_link *link, char *buffer, int buffer_size)
 #define SP_LINK_AS(type) \
   sp_##type * sp_link_as_##type(sp_link *link)      \
   {                                                 \
-    return (sp_##type *) registry_find(link->data); \
+    return (sp_##type *) sp_mock_registry_find(link->data); \
   }
 
 SP_LINK_AS(user);

@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_user *
-mocksp_user_create(const char *canonical_name, const char *display_name, bool is_loaded)
+sp_mock_user_create(const char *canonical_name, const char *display_name, bool is_loaded)
 {
     sp_user *user = ALLOC(sp_user);
 

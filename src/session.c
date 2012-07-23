@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_session *
-mocksp_session_create(const sp_session_config *config, sp_connectionstate connectionstate,
+sp_mock_session_create(const sp_session_config *config, sp_connectionstate connectionstate,
                       int offline_time_left, sp_offline_sync_status *sync_status,
                       int offline_num_playlists, int offline_tracks_to_sync, sp_playlist *inbox)
 {
@@ -35,7 +35,7 @@ mocksp_session_create(const sp_session_config *config, sp_connectionstate connec
 }
 
 void
-mocksp_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible)
+sp_mock_session_set_is_scrobbling_possible(sp_session *session, sp_social_provider provider, bool possible)
 {
   session->scrobbling[provider].is_possible = possible;
 }
@@ -88,7 +88,7 @@ DEFINE_READER(session, user, sp_user *);
 
 const char * sp_build_id(void)
 {
-  return "10.1.16.g7a6bc7ea Release Darwin-x86_64 ";
+  return "12.1.51 (libmockspotify)";
 }
 
 sp_playlistcontainer *
@@ -114,7 +114,7 @@ sp_session_publishedcontainer_for_user_create(sp_session *session, const char *u
 
   link = ALLOC_STR(strlen("spotify:container:") + strlen(username));
   sprintf(link, "spotify:container:%s", username);
-  return (sp_playlistcontainer *)registry_find(link);
+  return (sp_playlistcontainer *)sp_mock_registry_find(link);
 }
 
 sp_error
@@ -168,7 +168,7 @@ sp_session_process_events(sp_session *UNUSED(session), int *next_timeout)
 sp_error
 sp_session_login(sp_session *session, const char *username, const char *UNUSED(password), bool remember_me, const char *UNUSED(blob))
 {
-  session->user = mocksp_user_create(username, username, true);
+  session->user = sp_mock_user_create(username, username, true);
   session->connectionstate = SP_CONNECTION_STATE_LOGGED_IN;
 
   if (remember_me)
@@ -322,7 +322,7 @@ sp_session_starred_for_user_create(sp_session *session, const char *name)
 
   link = ALLOC_STR(strlen("spotify:user:") + strlen(name) + strlen(":starred"));
   sprintf(link, "spotify:user:%s:starred", name);
-  return (sp_playlist *)registry_find(link);
+  return (sp_playlist *)sp_mock_registry_find(link);
 }
 
 sp_playlist *

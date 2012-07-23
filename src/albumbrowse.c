@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_albumbrowse *
-mocksp_albumbrowse_create(sp_error error, int request_duration, sp_album *album, sp_artist *artist,
+sp_mock_albumbrowse_create(sp_error error, int request_duration, sp_album *album, sp_artist *artist,
                           int num_copyrights, const char **copyrights, int num_tracks,
                           sp_track **tracks, const char *review, albumbrowse_complete_cb *cb,
                           void *userdata)
@@ -63,5 +63,5 @@ sp_albumbrowse_create(sp_session *UNUSED(session), sp_album *album, albumbrowse_
 
   albumbrowse_link = ALLOC_STR(strlen("spotify:albumbrowse:1xvnWMz2PNFf7mXOSRuLws"));
   sprintf(albumbrowse_link, "spotify:albumbrowse:%s", link->data + strlen("spotify:album:"));
-  return (sp_albumbrowse *)registry_find(albumbrowse_link);
+  return (sp_albumbrowse *)sp_mock_registry_find(albumbrowse_link);
 }

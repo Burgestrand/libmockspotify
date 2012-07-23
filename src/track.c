@@ -1,7 +1,7 @@
 #include "libmockspotify.h"
 
 sp_track *
-mocksp_track_create(const char *name, int num_artists, sp_artist **artists, sp_album *album,
+sp_mock_track_create(const char *name, int num_artists, sp_artist **artists, sp_album *album,
                     int duration, int popularity, int disc, int index, sp_error error,
                     bool is_loaded, sp_track_availability availability, sp_track_offline_status status,
                     bool is_local, bool is_autolinked, sp_track *playable,
@@ -63,15 +63,15 @@ sp_track_get_availability(sp_session *UNUSED(session), sp_track *track)
 sp_track *
 sp_localtrack_create(const char *artist, const char *title, const char *album, int length)
 {
-  sp_artist *partist = mocksp_artist_create(artist, NULL, true);
+  sp_artist *partist = sp_mock_artist_create(artist, NULL, true);
   sp_album  *palbum  = NULL;
 
   if (strlen(album) > 0)
   {
-    palbum  = mocksp_album_create(album, partist, 2011, NULL, SP_ALBUMTYPE_UNKNOWN, 1, 1);
+    palbum  = sp_mock_album_create(album, partist, 2011, NULL, SP_ALBUMTYPE_UNKNOWN, 1, 1);
   }
 
-  return mocksp_track_create(title, 1, &partist, palbum, length, 0, 0, 0, SP_ERROR_OK, true, SP_TRACK_AVAILABILITY_AVAILABLE, SP_TRACK_OFFLINE_DONE, true, false, NULL, false, false);
+  return sp_mock_track_create(title, 1, &partist, palbum, length, 0, 0, 0, SP_ERROR_OK, true, SP_TRACK_AVAILABILITY_AVAILABLE, SP_TRACK_OFFLINE_DONE, true, false, NULL, false, false);
 }
 
 sp_error

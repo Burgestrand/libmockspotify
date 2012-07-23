@@ -43,7 +43,7 @@ char *unregion(int);
   }
 
 #define DEFINE_MOCK_READER(kind, field, return_type) \
-  return_type mocksp_##kind##_get_##field(sp_##kind *x) \
+  return_type sp_mock_##kind##_get_##field(sp_##kind *x) \
   {                                             \
     return x->field;                            \
   }
